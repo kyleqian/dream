@@ -5,8 +5,27 @@
 //------------------|
 
 global float timeScale;
-//float timeScale;
-//2.0 => timeScale;
+//1.0 => float timeScale;
+5::ms => dur atomicDuration;
+
+fun void advanceTimeScaled(dur originalDuration)
+{
+    now => time startTime;
+    time endTime;
+    do {
+        if (timeScale == 0)
+        {
+            // Guaranteed to not exit the loop.
+            now + 2 * atomicDuration => endTime;
+        }
+        else
+        {
+            startTime + originalDuration / timeScale => endTime;
+        }
+        
+        atomicDuration => now;
+    } while (now < endTime);
+}
 
 // our patch
 Mandolin mand => JCRev r => Echo a => Echo b => Echo c => dac;
@@ -23,18 +42,6 @@ Mandolin mand => JCRev r => Echo a => Echo b => Echo c => dac;
 
 // scale
 [ 0, 2, 4, 7, 9 ] @=> int scale[];
-
-fun void advanceTime(dur duration)
-{
-    if (timeScale > 0)
-    {
-        duration / timeScale => now;
-    }
-    else
-    {
-        30::ms => now;
-    }
-}
 
 // shred to modulate the mix
 fun void echo_Shred( )
@@ -57,13 +64,13 @@ fun void echo_Shred( )
         {
             // set the mix for a, b, c
             old + inc => old => a.mix => b.mix => c.mix;
-            advanceTime(1::ms);
+            advanceTimeScaled(1::ms);
             //1::ms => now;
         }
         // remember the old
         mix => old;
         // let time pass until the next iteration
-        advanceTime(Math.random2(2,6)::second);
+        advanceTimeScaled(Math.random2(2,6)::second);
         //Math.random2(2,6)::second => now;
     }
 }
@@ -84,11 +91,11 @@ while( true )
 
     // note: Math.randomf() returns value between 0 and 1
     if( Math.randomf() > 0.9 )
-    { advanceTime(500::ms); }
+    { advanceTimeScaled(500::ms); }
     else if( Math.randomf() > .925 )
-    { advanceTime(250::ms); }
+    { advanceTimeScaled(250::ms); }
     else if( Math.randomf() > .05 )
-    { advanceTime(.125::second); }
+    { advanceTimeScaled(.125::second); }
     else
     {
         1 => int i => int pick_dir;
@@ -99,7 +106,7 @@ while( true )
         // time loop
         for( ; i < pick; i++ )
         {
-            advanceTime(75::ms);
+            advanceTimeScaled(75::ms);
             //75::ms => now;
             Math.random2f(.2,.3) + i*inc => pluck;
             pluck + -.2 * pick_dir => mand.pluck;
@@ -107,7 +114,7 @@ while( true )
             !pick_dir => pick_dir;
         }
         // let time pass for final pluck
-        advanceTime(75::ms);
+        advanceTimeScaled(75::ms);
         //75::ms => now;
     }
 }

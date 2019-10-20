@@ -11,24 +11,7 @@ namespace Dream
 
         void Start()
         {
-            //chuck.RunCode(@"
-            //    global float timeScale;
-
-            //    SinOsc foo => dac;
-            //    while( true )
-            //    {
-            //        if (timeScale > 0)
-            //        {
-            //            Math.random2f( 300, 1000 ) => foo.freq;
-            //            100::ms / timeScale => now;
-            //        }
-            //        else
-            //        {
-            //            10::ms => now;
-            //        }
-            //    }
-            //");
-
+            //chuck.RunFile("test-time.ck");
             chuck.RunFile("mand-o-matic-time.ck");
             timeScaleSyncer = gameObject.AddComponent<ChuckFloatSyncer>();
             timeScaleSyncer.SyncFloat(chuck, "timeScale");
