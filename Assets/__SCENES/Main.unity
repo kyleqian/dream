@@ -169,8 +169,7 @@ MonoBehaviour:
   head: {fileID: 445561149}
   controllerL: {fileID: 1787229044}
   controllerR: {fileID: 346903039}
-  maxBaseVelocity: 0.1
-  velocityMultiplier: 5
+  velocityMultiplier: 100
   headVelocityWeight: 3
   controllerLVelocityWeight: 0.5
   controllerRVelocityWeight: 0.5

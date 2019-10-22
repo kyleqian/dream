@@ -4,15 +4,16 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
     public float TimeScale { get { return Time.timeScale; } }
+    public float TimeScaleL { get; private set; }
+    public float TimeScaleR { get; private set; }
 
-    const float MIN_VELOCITY = 0.01f;
+    const float MIN_VELOCITY = 0.05f;
 
     [SerializeField] GameObject head;
     [SerializeField] GameObject controllerL;
     [SerializeField] GameObject controllerR;
 
     [Header("Velocity Control")]
-    [SerializeField] float maxBaseVelocity;
     [SerializeField] float velocityMultiplier;
     [SerializeField] float headVelocityWeight;
     [SerializeField] float controllerLVelocityWeight;
@@ -37,13 +38,28 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
+        TimeScaleL = velocityMultiplier * ((prevControllerL - controllerL.transform.position).magnitude);
+        TimeScaleR = velocityMultiplier * ((prevControllerR - controllerR.transform.position).magnitude);
+
+        TimeScaleL = Mathf.Clamp(TimeScaleL, 0, 100);
+        if (TimeScaleL < MIN_VELOCITY)
+        {
+            TimeScaleL = 0;
+        }
+
+        TimeScaleR = Mathf.Clamp(TimeScaleR, 0, 100);
+        if (TimeScaleR < MIN_VELOCITY)
+        {
+            TimeScaleR = 0;
+        }
+
         float baseVelocity = 0;
         baseVelocity += headVelocityWeight * ((prevHead - head.transform.position).magnitude);
         baseVelocity += controllerLVelocityWeight * ((prevControllerL - controllerL.transform.position).magnitude);
         baseVelocity += controllerRVelocityWeight * ((prevControllerR - controllerR.transform.position).magnitude);
         //print(delta);
 
-        float newTimeScale = velocityMultiplier * (baseVelocity / maxBaseVelocity);
+        float newTimeScale = velocityMultiplier * baseVelocity;
         newTimeScale = Mathf.Clamp(newTimeScale, 0, 100);
         if (newTimeScale < MIN_VELOCITY)
         {
