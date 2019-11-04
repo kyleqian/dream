@@ -45,6 +45,7 @@ global float timeScaleR;
 fun void advanceScaledTime(dur originalDuration, int R)
 {
     now => time startTime;
+    0::ms => dur timePaused;
     float timeScale;
     time endTime;
     do {
@@ -65,6 +66,7 @@ fun void advanceScaledTime(dur originalDuration, int R)
             }
             
             // Guaranteed to not exit the loop.
+            atomicDuration +=> timePaused;
             now + 2 * atomicDuration => endTime;
         } else {
             if (R == 0 && connectedL == 0) {
@@ -76,7 +78,7 @@ fun void advanceScaledTime(dur originalDuration, int R)
                 1 => connectedR;
             }
             
-            startTime + originalDuration / timeScale => endTime;
+            startTime + timePaused + originalDuration / timeScale => endTime;
         }
         
         atomicDuration => now;
