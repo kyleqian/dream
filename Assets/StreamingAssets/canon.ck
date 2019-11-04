@@ -34,12 +34,10 @@ BeeThree b4 => adsr2;
 0.2 => b32.gain;
 0.4 => b4.gain;
 
-//global float timeScaleL;
-//global float timeScaleR;
-float timePassedL;
-float timePassedR;
-1 => float timeScaleL;
-1 => float timeScaleR;
+global float timeScaleL;
+global float timeScaleR;
+//1 => float timeScaleL;
+//1 => float timeScaleR;
 5::ms => dur atomicDuration;
 1 => int connectedL;
 1 => int connectedR;
@@ -82,12 +80,6 @@ fun void advanceScaledTime(dur originalDuration, int R)
         }
         
         atomicDuration => now;
-
-        if (R == 0) {
-            now $ float => timePassedL;
-        } else {
-            now $ float => timePassedR;
-        }
     } while (now < endTime);
 }
 
