@@ -30,14 +30,16 @@ class Block {
 BeeThree b3 => ADSR adsr => LPF lp => NRev rev => dac;
 BeeThree b32 => ADSR adsr2 => lp;
 BeeThree b4 => adsr2;
-0.4 => b3.gain;
-0.4 => b32.gain;
+0.2 => b3.gain;
+0.2 => b32.gain;
 0.4 => b4.gain;
 
-global float timeScaleL;
-global float timeScaleR;
-//0.8 => float timeScaleL;
-//1.2 => float timeScaleR;
+//global float timeScaleL;
+//global float timeScaleR;
+float timePassedL;
+float timePassedR;
+1 => float timeScaleL;
+1 => float timeScaleR;
 5::ms => dur atomicDuration;
 1 => int connectedL;
 1 => int connectedR;
@@ -80,6 +82,12 @@ fun void advanceScaledTime(dur originalDuration, int R)
         }
         
         atomicDuration => now;
+
+        if (R == 0) {
+            now $ float => timePassedL;
+        } else {
+            now $ float => timePassedR;
+        }
     } while (now < endTime);
 }
 
@@ -127,7 +135,7 @@ fun void loopPattern() {
 }
 
 fun void playPattern(int root, int patternNum) {
-    spork ~ playBass(root);
+    //spork ~ playBass(root);
     
 	if (patternNum == 0) {
 		for (0 => int i; i < patternSet.majorArp.cap(); i++) {

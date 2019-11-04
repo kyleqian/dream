@@ -157,7 +157,7 @@ public class SocialPlatformManager : MonoBehaviour
 
     public virtual void Start()
     {
-        // noop here, but is being overridden in PlayerController
+        // noop here, but is being overridden in ChuckSynchronizer
     }
 
     void IsEntitledCallback(Message msg)

@@ -19,9 +19,9 @@ using UnityEngine;
 public class CharacterCameraConstraint : MonoBehaviour
 {
 	/// <summary>
-	/// This should be a reference to the OVRCameraRig that is usually a child of the PlayerController.
+	/// This should be a reference to the OVRCameraRig that is usually a child of the ChuckSynchronizer.
 	/// </summary>
-	[Tooltip("This should be a reference to the OVRCameraRig that is usually a child of the PlayerController.")]
+	[Tooltip("This should be a reference to the OVRCameraRig that is usually a child of the ChuckSynchronizer.")]
 	public OVRCameraRig CameraRig;
 
 	/// <summary>
@@ -97,7 +97,7 @@ public class CharacterCameraConstraint : MonoBehaviour
 	}
 
 	/// <summary>
-	/// This method is the handler for the PlayerController.CameraUpdated event, which is used
+	/// This method is the handler for the ChuckSynchronizer.CameraUpdated event, which is used
 	/// to update the character height based on camera position.
 	/// </summary>
 	private void CameraUpdate()
@@ -146,7 +146,7 @@ public class CharacterCameraConstraint : MonoBehaviour
 	}
 
 	/// <summary>
-	/// This method is the handler for the PlayerController.PreCharacterMove event, which is used
+	/// This method is the handler for the ChuckSynchronizer.PreCharacterMove event, which is used
 	/// to do the work of fading out the camera or adjust the position depending on the 
 	/// settings and the relationship of where the camera is and where the character is.
 	/// </summary>

@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour
     public float TimeScaleL { get; private set; }
     public float TimeScaleR { get; private set; }
 
-    const float MIN_VELOCITY = 0.05f;
+    const float MIN_VELOCITY = 0.1f;
 
     [SerializeField] GameObject head;
     [SerializeField] GameObject controllerL;

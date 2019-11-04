@@ -242,8 +242,8 @@ public class LocomotionSampleSupport : MonoBehaviour
         SetupTeleportDefaults();
         TeleportController.EnableRotation(true, false, false, false);
         TeleportController.EnableMovement(false, false, false, false);
-        lc.PlayerController.SnapRotation = true;
-        lc.PlayerController.FixedSpeedSteps = 1;
+        lc.ChuckSynchronizer.SnapRotation = true;
+        lc.ChuckSynchronizer.FixedSpeedSteps = 1;
 
         var input = TeleportController.GetComponent<TeleportInputHandlerAvatarTouch>();
         input.InputMode = TeleportInputHandlerAvatarTouch.InputModes.ThumbstickTeleport;

@@ -2,7 +2,7 @@
 
 namespace Dream
 {
-    public class PlayerController : MonoBehaviour
+    public class Phase : MonoBehaviour
     {
         [SerializeField] ChuckSubInstance chuck;
 
@@ -32,6 +32,8 @@ namespace Dream
 
         void Update()
         {
+            DebugUI.Instance?.SetText(PhaseManager.Instance.PhaseDifference.ToString("F3"));
+
             if (!initialized)
             {
                 return;
