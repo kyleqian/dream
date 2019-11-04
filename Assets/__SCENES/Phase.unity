@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 192660878}
   - component: {fileID: 192660877}
   - component: {fileID: 192660879}
+  - component: {fileID: 192660881}
   m_Layer: 0
   m_Name: Phase
   m_TagString: Untagged
@@ -309,6 +310,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chuck: {fileID: 192660877}
+--- !u!114 &192660881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192660874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf51c00a035bea43815325ff20e667d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  object1: {fileID: 1799354115}
+  object2: {fileID: 1799348631}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,9 +533,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 574380995327070599}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1799348631 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 574380994703762223, guid: 89f3598fd1c0b6f42b483947692f00df,
+    type: 3}
+  m_PrefabInstance: {fileID: 574380995327070599}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1799354114 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 574380994703615621, guid: 89f3598fd1c0b6f42b483947692f00df,
+    type: 3}
+  m_PrefabInstance: {fileID: 574380995327070599}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1799354115 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 574380994703759147, guid: 89f3598fd1c0b6f42b483947692f00df,
     type: 3}
   m_PrefabInstance: {fileID: 574380995327070599}
   m_PrefabAsset: {fileID: 0}

@@ -14,6 +14,7 @@ namespace Dream
         void Start()
         {
             Invoke("Initialize", 2.0f);
+            OVRInput.SetControllerVibration(1.0f, 1.0f);
         }
 
         void Initialize()
@@ -32,7 +33,9 @@ namespace Dream
 
         void Update()
         {
-            DebugUI.Instance?.SetText(PhaseManager.Instance.PhaseDifference.ToString("F3"));
+            //DebugUI.Instance?.SetText(PhaseManager.Instance.PhaseDifference.ToString("F3"));
+            DebugUI.Instance?.SetText(ProximityManager.Instance.Proximity10.ToString("F3"));
+            //OVRInput.SetControllerVibration(ProximityManager.Instance.Proximity10, ProximityManager.Instance.Proximity10, OVRInput.Controller.All);
 
             if (!initialized)
             {
