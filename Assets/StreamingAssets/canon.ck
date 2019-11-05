@@ -29,7 +29,7 @@ class Block {
 
 BeeThree b3 => ADSR adsr => LPF lp => NRev rev => dac;
 BeeThree b32 => ADSR adsr2 => lp;
-BeeThree b4 => adsr2;
+BeeThree b4 => ADSR adsr3 => lp;
 0.2 => b3.gain;
 0.2 => b32.gain;
 0.4 => b4.gain;
@@ -61,7 +61,7 @@ fun void advanceScaledTime(dur originalDuration, int R)
                 b32 =< adsr2;
                 0 => connectedL;
             } else if (R == 1 && connectedR == 1) {
-                b4 =< adsr2;
+                b4 =< adsr3;
                 0 => connectedR;
             }
             
@@ -74,7 +74,7 @@ fun void advanceScaledTime(dur originalDuration, int R)
                 b32 => adsr2;
                 1 => connectedL;
             } else if (R == 1 && connectedR == 0) {
-                b4 => adsr2;
+                b4 => adsr3;
                 1 => connectedR;
             }
             
@@ -90,6 +90,7 @@ fun void advanceScaledTime(dur originalDuration, int R)
 0.2 => rev.mix;
 adsr.set(30::ms, 0::ms, 1.0, 50::ms);
 adsr2.set(50::ms, 0::ms, 1.0, 100::ms);
+adsr3.set(30::ms, 0::ms, 1.0, 50::ms);
 
 BPM bpm;
 bpm.setTempo(120.0);

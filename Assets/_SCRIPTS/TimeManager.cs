@@ -38,8 +38,8 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
-        TimeScaleL = velocityMultiplier * ((prevControllerL - controllerL.transform.position).magnitude);
-        TimeScaleR = velocityMultiplier * ((prevControllerR - controllerR.transform.position).magnitude);
+        TimeScaleL = Time.unscaledDeltaTime * velocityMultiplier * ((prevControllerL - controllerL.transform.position).magnitude);
+        TimeScaleR = Time.unscaledDeltaTime * velocityMultiplier * ((prevControllerR - controllerR.transform.position).magnitude);
 
         TimeScaleL = Mathf.Clamp(TimeScaleL, 0, 100);
         if (TimeScaleL < MIN_VELOCITY)
@@ -57,9 +57,8 @@ public class TimeManager : MonoBehaviour
         baseVelocity += headVelocityWeight * ((prevHead - head.transform.position).magnitude);
         baseVelocity += controllerLVelocityWeight * ((prevControllerL - controllerL.transform.position).magnitude);
         baseVelocity += controllerRVelocityWeight * ((prevControllerR - controllerR.transform.position).magnitude);
-        //print(delta);
 
-        float newTimeScale = velocityMultiplier * baseVelocity;
+        float newTimeScale = Time.unscaledDeltaTime * velocityMultiplier * baseVelocity;
         newTimeScale = Mathf.Clamp(newTimeScale, 0, 100);
         if (newTimeScale < MIN_VELOCITY)
         {
