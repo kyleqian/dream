@@ -9,17 +9,19 @@ namespace Dream
         [SerializeField] Transform bowController;
 
         const int SYNC_FREQUENCY_FRAMES = 5;
-        const float MIN_BOW_VELOCITY = 0.2f;
-        readonly Vector2 G_STRING_VEC = new Vector2(Mathf.Cos(Mathf.PI / 4), Mathf.Sin(Mathf.PI / 4));
-        readonly Vector2 D_STRING_VEC = new Vector2(Mathf.Cos(Mathf.PI / 12), Mathf.Sin(Mathf.PI / 12));
-        readonly Vector2 A_STRING_VEC = new Vector2(-Mathf.Cos(Mathf.PI / 12), Mathf.Sin(Mathf.PI / 12));
-        readonly Vector2 E_STRING_VEC = new Vector2(-Mathf.Cos(Mathf.PI / 4), Mathf.Sin(Mathf.PI / 4));
+        const float MIN_BOW_VELOCITY = 0.1f;
+        readonly Vector2 G_STRING_VEC = new Vector2(Mathf.Cos(67.5f * Mathf.Deg2Rad), Mathf.Sin(67.5f * Mathf.Deg2Rad));
+        readonly Vector2 D_STRING_VEC = new Vector2(Mathf.Cos(22.5f * Mathf.Deg2Rad), Mathf.Sin(22.5f * Mathf.Deg2Rad));
+        readonly Vector2 A_STRING_VEC = new Vector2(-Mathf.Cos(22.5f * Mathf.Deg2Rad), Mathf.Sin(22.5f * Mathf.Deg2Rad));
+        readonly Vector2 E_STRING_VEC = new Vector2(-Mathf.Cos(67.5f * Mathf.Deg2Rad), Mathf.Sin(67.5f * Mathf.Deg2Rad));
+
+        readonly int[] OPEN_STRINGS = { 0, 4, 8, 12 };
 
         ChuckIntSyncer syncBowOn;
-        ChuckIntSyncer syncNote;
+        ChuckIntSyncer syncFingering;
         Vector3 bowPrevPosition;
         int bowOn = 0;
-        int note = 2;
+        int fingering = 0;
         bool initialized = false;
 
         void Start()
@@ -33,9 +35,9 @@ namespace Dream
             ChuckSubInstance chuck = GetComponent<ChuckSubInstance>();
             chuck.RunFile("violin.ck");
             syncBowOn = gameObject.AddComponent<ChuckIntSyncer>();
-            syncNote = gameObject.AddComponent<ChuckIntSyncer>();
+            syncFingering = gameObject.AddComponent<ChuckIntSyncer>();
             syncBowOn.SyncInt(chuck, "bowOn");
-            syncNote.SyncInt(chuck, "note");
+            syncFingering.SyncInt(chuck, "fingering");
             ChuckSync();
             initialized = true;
         }
@@ -63,22 +65,39 @@ namespace Dream
             float A_Angle = Vector2.Angle(projection, A_STRING_VEC);
             float E_Angle = Vector2.Angle(projection, E_STRING_VEC);
 
-            note = 0;
+            fingering = OPEN_STRINGS[0];
             float minAngle = G_Angle;
             if (D_Angle < minAngle)
             {
-                note = 1;
+                fingering = OPEN_STRINGS[1];
                 minAngle = D_Angle;
             }
             if (A_Angle < minAngle)
             {
-                note = 2;
+                fingering = OPEN_STRINGS[2];
                 minAngle = A_Angle;
             }
             if (E_Angle < minAngle)
             {
-                note = 3;
+                fingering = OPEN_STRINGS[3];
                 minAngle = E_Angle;
+            }
+
+            if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.Touch) > 0.3f)
+            {
+                fingering += 4;
+            }
+            else if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.Touch) > 0.3f)
+            {
+                fingering += 3;
+            }
+            else if (OVRInput.Get(OVRInput.Button.Four, OVRInput.Controller.Touch))
+            {
+                fingering += 2;
+            }
+            else if (OVRInput.Get(OVRInput.Button.Three, OVRInput.Controller.Touch))
+            {
+                fingering++;
             }
 
             if (OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) >= 0.9f && bowVelocity >= MIN_BOW_VELOCITY)
@@ -101,7 +120,7 @@ namespace Dream
         void ChuckSync()
         {
             syncBowOn.SetNewValue(bowOn);
-            syncNote.SetNewValue(note);
+            syncFingering.SetNewValue(fingering);
         }
     }
 }

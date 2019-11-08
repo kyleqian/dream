@@ -1,12 +1,20 @@
 Bowed bow => dac;
 
 global int bowOn;
-global int note;
+global int fingering;
 //1 => int bowOn;
-//1 => int note;
+//1 => int fingering;
 
 5::ms => dur atomicDuration;
-[55, 62, 69, 76] @=> int openStrings[];
+[ 0,  2,  4,  5,
+  7,  9, 11, 12,
+ 14, 16, 17, 19,
+ 21, 23, 24, 26, 28] @=> int GMajor[];
+ 
+[ 0,  2,  3,  5,
+  7,  9, 10, 12,
+ 14, 15, 17, 19,
+ 21, 22, 24, 26, 27] @=> int FMajor[];
 
 while (true) {
     0.5 => bow.bowPressure;
@@ -28,7 +36,7 @@ while (true) {
         0.2 => bow.noteOff;
     }
     
-    openStrings[note] => Std.mtof => bow.freq;
+    GMajor[fingering] + 55 => Std.mtof => bow.freq;
 
     atomicDuration => now;
 }
