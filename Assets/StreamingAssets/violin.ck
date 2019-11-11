@@ -1,6 +1,7 @@
 Bowed bow => dac;
 
 global int bowOn;
+global float vibrato;
 global int fingering;
 //1 => int bowOn;
 //1 => int fingering;
@@ -36,7 +37,7 @@ while (true) {
         0.2 => bow.noteOff;
     }
     
-    GMajor[fingering] + 55 => Std.mtof => bow.freq;
+    vibrato + GMajor[fingering] + 55 => Std.mtof => bow.freq;
 
     atomicDuration => now;
 }

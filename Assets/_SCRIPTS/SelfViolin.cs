@@ -17,11 +17,10 @@ namespace Dream
 
         ChuckIntSyncer syncBowOn;
         ChuckIntSyncer syncFingering;
+        ChuckFloatSyncer syncVibrato;
         int bowOn = 0;
         int fingering = 0;
-
-        int leftFingering = 0;
-        int rightFingering = 0;
+        float vibrato = 0;
         bool initialized = false;
 
         void Start()
@@ -35,8 +34,10 @@ namespace Dream
             chuck.RunFile("violin.ck");
             syncBowOn = gameObject.AddComponent<ChuckIntSyncer>();
             syncFingering = gameObject.AddComponent<ChuckIntSyncer>();
+            syncVibrato = gameObject.AddComponent<ChuckFloatSyncer>();
             syncBowOn.SyncInt(chuck, "bowOn");
             syncFingering.SyncInt(chuck, "fingering");
+            syncVibrato.SyncFloat(chuck, "vibrato");
             ChuckSync();
             initialized = true;
         }
@@ -53,21 +54,29 @@ namespace Dream
             if (pos4.IsOn)
             {
                 fingering += 4;
+                vibrato = pos4.Vibrato;
             }
             else if (pos3.IsOn)
             {
                 fingering += 3;
+                vibrato = pos3.Vibrato;
             }
             else if (pos2.IsOn)
             {
                 fingering += 2;
+                vibrato = pos2.Vibrato;
             }
             else if (pos1.IsOn)
             {
                 fingering++;
+                vibrato = pos1.Vibrato;
+            }
+            else
+            {
+                vibrato = 0;
             }
 
-            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f || OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
             {
                 bowOn = 1;
             }
@@ -86,6 +95,7 @@ namespace Dream
         {
             syncBowOn.SetNewValue(bowOn);
             syncFingering.SetNewValue(fingering);
+            syncVibrato.SetNewValue(vibrato);
         }
     }
 }
