@@ -15,34 +15,35 @@ public class StringPosition : MonoBehaviour
 
     void OnTriggerEnter(Collider finger)
     {
-        nearbyFinger = finger.transform;
-        nearbyFingerPrevPosition = nearbyFinger.position;
+        //nearbyFinger = finger.transform;
+        //nearbyFingerPrevPosition = nearbyFinger.position;
+        IsOn = true;
     }
 
     void OnTriggerExit(Collider finger)
     {
-        nearbyFinger = null;
+        //nearbyFinger = null;
         IsOn = false;
     }
 
     void Update()
     {
-        if (nearbyFinger == null)
-        {
-            return;
-        }
+        //if (nearbyFinger == null)
+        //{
+        //    return;
+        //}
 
-        if (IsOn)
-        {
-            Vibrato = VIBRATO_MULTIPLIER * (activeFingerInitialPosition.y - nearbyFinger.position.y);
-        }
+        //if (IsOn)
+        //{
+        //    Vibrato = VIBRATO_MULTIPLIER * (activeFingerInitialPosition.y - nearbyFinger.position.y);
+        //}
 
-        if (!IsOn && (Vector3.Distance(nearbyFinger.position, nearbyFingerPrevPosition)) < NEARBY_FINGER_STOP_THRESHOLD)
-        {
-            activeFingerInitialPosition = nearbyFinger.position;
-            IsOn = true;
-        }
+        //if (!IsOn && (Vector3.Distance(nearbyFinger.position, nearbyFingerPrevPosition)) < NEARBY_FINGER_STOP_THRESHOLD)
+        //{
+        //    activeFingerInitialPosition = nearbyFinger.position;
+        //    IsOn = true;
+        //}
 
-        nearbyFingerPrevPosition = nearbyFinger.position;
+        //nearbyFingerPrevPosition = nearbyFinger.position;
     }
 }
