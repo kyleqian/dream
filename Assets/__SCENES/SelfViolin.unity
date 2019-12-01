@@ -120,6 +120,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &109840277 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9123442025410696665, guid: 6f12017a0d14233428968ac85b789f50,
+    type: 3}
+  m_PrefabInstance: {fileID: 9120656318763946599}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &192660874
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 1798850428}
+  bow: {fileID: 109840277}
   pos1: {fileID: 9120656318763946603}
   pos2: {fileID: 9120656318763946602}
   pos3: {fileID: 9120656318763946601}
