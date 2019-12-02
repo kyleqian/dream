@@ -120,12 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &109840277 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9123442025410696665, guid: 6f12017a0d14233428968ac85b789f50,
-    type: 3}
-  m_PrefabInstance: {fileID: 9120656318763946599}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &192660874
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,11 +166,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 1798850428}
-  bow: {fileID: 109840277}
+  bowHand: {fileID: 1323450929}
+  pitchHand: {fileID: 1076691842}
   pos1: {fileID: 9120656318763946603}
   pos2: {fileID: 9120656318763946602}
   pos3: {fileID: 9120656318763946601}
   pos4: {fileID: 9120656318763946600}
+  vibratoIntensity: 5
+  vibratoMaxMidi: 0.1
 --- !u!114 &192660877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +375,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &1076691842 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9120656319150413003, guid: 6f12017a0d14233428968ac85b789f50,
+    type: 3}
+  m_PrefabInstance: {fileID: 9120656318763946599}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1323450929 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9120656319150416079, guid: 6f12017a0d14233428968ac85b789f50,
+    type: 3}
+  m_PrefabInstance: {fileID: 9120656318763946599}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1755825840
 GameObject:
   m_ObjectHideFlags: 0

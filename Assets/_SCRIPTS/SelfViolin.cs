@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Dream
 {
@@ -6,7 +7,8 @@ namespace Dream
     public class SelfViolin : MonoBehaviour
     {
         [SerializeField] Transform head;
-        [SerializeField] Transform bow;
+        [SerializeField] Transform bowHand;
+        [SerializeField] Transform pitchHand;
         [SerializeField] StringPosition pos1;
         [SerializeField] StringPosition pos2;
         [SerializeField] StringPosition pos3;
@@ -22,22 +24,21 @@ namespace Dream
         int bowOn = 0;
         int fingering = 0;
         float vibrato = 0;
-        bool initialized = false;
 
         // Bowing
+        const float vibratoIntensity = 5;
+        const float vibratoMaxMidi = 0.2f;
+        const float vibratoMinMidi = -0.2f;
         ChuckSubInstance chuck;
         ChuckFloatSyncer syncBowIntensity;
         ChuckFloatSyncer syncPitch;
         Vector3 bowPrevPos;
         float integrator = 0f;
         float leakFactor = 0.85f;
+        bool vibratoActive = false;
+        Vector3 vibratoInitialPosition;
 
         void Start()
-        {
-            Invoke("Initialize", 1.0f);
-        }
-
-        void Initialize()
         {
             //ChuckSubInstance chuck = GetComponent<ChuckSubInstance>();
             //chuck.RunFile("violin.ck");
@@ -49,18 +50,21 @@ namespace Dream
             //syncVibrato.SyncFloat(chuck, "vibrato");
 
             chuck = GetComponent<ChuckSubInstance>();
+            float originalVolume = AudioListener.volume;
+            AudioListener.volume = 0;
             chuck.RunFile("bowing.ck");
+            StartCoroutine(Initialize(originalVolume));
             //ChuckSync();
-            initialized = true;
+        }
+
+        IEnumerator Initialize(float originalVolume)
+        {
+            yield return new WaitForSeconds(5);
+            AudioListener.volume = originalVolume;
         }
 
         void Update()
         {
-            if (!initialized)
-            {
-                return;
-            }
-
             // Clean up
             float pitch = 0;
 
@@ -68,31 +72,31 @@ namespace Dream
 
             if (pos4.IsOn)
             {
-                pitch = 1 + (pos1.transform.position.y - pos4.transform.position.y);
+                pitch = 7;
                 fingering += 4;
                 vibrato = pos4.Vibrato;
             }
             else if (pos3.IsOn)
             {
-                pitch = 1 + (pos1.transform.position.y - pos3.transform.position.y);
+                pitch = 5;
                 fingering += 3;
                 vibrato = pos3.Vibrato;
             }
             else if (pos2.IsOn)
             {
-                pitch = 1 + (pos1.transform.position.y - pos2.transform.position.y);
+                pitch = 4;
                 fingering += 2;
                 vibrato = pos2.Vibrato;
             }
             else if (pos1.IsOn)
             {
-                pitch = 1;
+                pitch = 2;
                 fingering++;
                 vibrato = pos1.Vibrato;
             }
             else
             {
-                pitch = 0.8f;
+                pitch = 0;
                 vibrato = 0;
             }
 
@@ -110,8 +114,29 @@ namespace Dream
                 ChuckSync();
             }
 
+            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            {
+                if (!vibratoActive)
+                {
+                    vibratoInitialPosition = pitchHand.position;
+                    vibratoActive = true;
+                }
+                vibrato = vibratoInitialPosition.y - pitchHand.position.y;
+            }
+            else
+            {
+                if (vibratoActive)
+                {
+                    vibratoActive = false;
+                    vibrato = 0;
+                }
+            }
+
+            // TODO: Make smoother, more like actual vibrato.
+            vibrato = Mathf.Clamp(vibrato * vibratoIntensity, vibratoMinMidi, vibratoMaxMidi);
+
             // Bowing
-            Vector3 bowCurrPos = bow.position;
+            Vector3 bowCurrPos = bowHand.position;
             Vector3 delta = bowCurrPos - bowPrevPos;
 
             // put magnitude into leaky integrator
@@ -127,7 +152,7 @@ namespace Dream
 
             // send float to chuck
             chuck.SetFloat("bowIntensity", integrator);
-            chuck.SetFloat("thePitch", 24 + 36 * pitch);
+            chuck.SetFloat("thePitch", 69 + pitch + vibrato);
         }
 
         void ChuckSync()
