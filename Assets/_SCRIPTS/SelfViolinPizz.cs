@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Dream
 {
     [RequireComponent(typeof(ChuckSubInstance))]
-    public class SelfViolin : MonoBehaviour
+    public class SelfViolinPizz : MonoBehaviour
     {
         [SerializeField] Transform head;
         [SerializeField] Transform bowHand;
@@ -13,7 +13,6 @@ namespace Dream
         [SerializeField] StringPosition pos2;
         [SerializeField] StringPosition pos3;
         [SerializeField] StringPosition pos4;
-        [SerializeField] bool wow;
 
         const int SYNC_FREQUENCY_FRAMES = 5;
 
@@ -159,7 +158,7 @@ namespace Dream
 
             // send float to chuck
             chuck.SetFloat("bowIntensity", integrator);
-            chuck.SetFloat("thePitch", wow ? 24 + 36 * bowCurrPos.y : 69 + pitch + vibrato);
+            chuck.SetFloat("thePitch", 24 + 36 * bowCurrPos.y);
 
             prevPizz = pizz;
         }

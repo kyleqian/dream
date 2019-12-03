@@ -172,8 +172,7 @@ MonoBehaviour:
   pos2: {fileID: 9120656318763946602}
   pos3: {fileID: 9120656318763946601}
   pos4: {fileID: 9120656318763946600}
-  vibratoIntensity: 5
-  vibratoMaxMidi: 0.1
+  wow: 0
 --- !u!114 &192660877
 MonoBehaviour:
   m_ObjectHideFlags: 0
