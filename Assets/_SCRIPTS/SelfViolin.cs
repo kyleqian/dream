@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Valve.VR;
 
 namespace Dream
 {
@@ -14,6 +15,10 @@ namespace Dream
         [SerializeField] StringPosition pos3;
         [SerializeField] StringPosition pos4;
         [SerializeField] bool wow;
+
+        [SerializeField] SteamVR_Action_Single bowSqueezeAction;
+        [SerializeField] SteamVR_Action_Boolean bowGripAction;
+        [SerializeField] SteamVR_Action_Single pitchSqueezeAction;
 
         const int SYNC_FREQUENCY_FRAMES = 5;
 
@@ -102,13 +107,18 @@ namespace Dream
                 vibrato = 0;
             }
 
-            if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            //if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            //{
+            //    bowOn = 1;
+            //}
+            //else
+            //{
+            //    bowOn = 0;
+            //}
+
+            if (bowGripAction.active)
             {
-                bowOn = 1;
-            }
-            else
-            {
-                bowOn = 0;
+                print("HIHIHIHIHIHI@@@@@@@@");
             }
 
             if (Time.frameCount % SYNC_FREQUENCY_FRAMES == 0)
