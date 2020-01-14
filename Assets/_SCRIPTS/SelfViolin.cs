@@ -16,9 +16,9 @@ namespace Dream
         [SerializeField] StringPosition pos4;
         [SerializeField] bool wow;
 
-        [SerializeField] SteamVR_Action_Single bowSqueezeAction;
-        [SerializeField] SteamVR_Action_Boolean bowGripAction;
-        [SerializeField] SteamVR_Action_Single pitchSqueezeAction;
+        //[SerializeField] SteamVR_Action_Single bowSqueezeAction;
+        //[SerializeField] SteamVR_Action_Boolean bowGripAction;
+        //[SerializeField] SteamVR_Action_Single pitchSqueezeAction;
 
         const int SYNC_FREQUENCY_FRAMES = 5;
 
@@ -116,17 +116,13 @@ namespace Dream
             //    bowOn = 0;
             //}
 
-            if (bowGripAction.active)
-            {
-                print("HIHIHIHIHIHI@@@@@@@@");
-            }
-
             if (Time.frameCount % SYNC_FREQUENCY_FRAMES == 0)
             {
                 ChuckSync();
             }
-
-            if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            
+            //if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            if (SteamVR_Actions._default.Squeeze.GetAxis(SteamVR_Input_Sources.LeftHand) >= 0.1f)
             {
                 if (!vibratoActive)
                 {
@@ -148,13 +144,15 @@ namespace Dream
             vibrato = Mathf.Clamp(vibrato * vibratoIntensity, vibratoMinMidi, vibratoMaxMidi);
 
             // Bowing/pizz
-            bool pizz = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f;
+            //bool pizz = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.Touch) >= 0.1f;
+            bool pizz = SteamVR_Actions._default.Squeeze.GetAxis(SteamVR_Input_Sources.RightHand) >= 0.1f;
 
             Vector3 bowCurrPos = pizz ? bowPrevPos : bowHand.position;
             Vector3 delta = bowCurrPos - bowPrevPos;
 
             // put magnitude into leaky integrator
-            if ((prevPizz && !pizz) || OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            //if ((prevPizz && !pizz) || OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.Touch) >= 0.1f)
+            if ((prevPizz && !pizz) || SteamVR_Actions._default.GrabGrip.GetState(SteamVR_Input_Sources.RightHand))
             {
                 integrator += (delta.magnitude * 5);
             }
