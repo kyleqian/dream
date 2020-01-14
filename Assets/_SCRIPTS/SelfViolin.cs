@@ -14,6 +14,10 @@ namespace Dream
         [SerializeField] StringPosition pos2;
         [SerializeField] StringPosition pos3;
         [SerializeField] StringPosition pos4;
+        [SerializeField] StringPosition pos5;
+        [SerializeField] StringPosition pos6;
+        [SerializeField] StringPosition pos7;
+        [SerializeField] StringPosition pos8;
         [SerializeField] bool wow;
 
         //[SerializeField] SteamVR_Action_Single bowSqueezeAction;
@@ -77,7 +81,31 @@ namespace Dream
 
             fingering = OPEN_STRINGS[1];
 
-            if (pos4.IsOn)
+            if (pos8.IsOn)
+            {
+                pitch = 14;
+                fingering += 8;
+                vibrato = pos8.Vibrato;
+            }
+            else if (pos7.IsOn)
+            {
+                pitch = 12;
+                fingering += 7;
+                vibrato = pos7.Vibrato;
+            }
+            else if (pos6.IsOn)
+            {
+                pitch = 11;
+                fingering += 6;
+                vibrato = pos6.Vibrato;
+            }
+            else if (pos5.IsOn)
+            {
+                pitch = 9;
+                fingering += 5;
+                vibrato = pos5.Vibrato;
+            }
+            else if (pos4.IsOn)
             {
                 pitch = 7;
                 fingering += 4;
