@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.dream.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "D:\\Kyle\\dream\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "D:\\Dropbox\\Developer\\dream\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "Dream [Testing]"
